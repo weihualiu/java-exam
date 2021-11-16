@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartUtilities;
+import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.title.LegendTitle;
@@ -26,7 +26,7 @@ public class BarChartTest {
 				false, // include legend
 				false, false);
 		setChartProperties(chart);
-		ChartUtilities.saveChartAsPNG(new File("d:\\testPie.png"), chart, 600, 400);
+		ChartUtils.saveChartAsPNG(new File("d:\\testPie.png"), chart, 600, 400);
 	}
 	
 	 /**       

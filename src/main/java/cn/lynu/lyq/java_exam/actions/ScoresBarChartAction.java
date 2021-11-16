@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.StandardChartTheme;
@@ -16,8 +16,8 @@ import org.jfree.chart.labels.StandardCategoryItemLabelGenerator;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.CategoryDataset;
-import org.jfree.data.general.DatasetUtilities;
-import org.jfree.ui.TextAnchor;
+import org.jfree.chart.ui.TextAnchor;
+import org.jfree.data.general.DatasetUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -90,6 +90,7 @@ public class ScoresBarChartAction extends ActionSupport {
 		String[] stuNameArray = (String[])stuNameList.toArray(new String[stuNameList.size()]);
 		Double[] integerScoreArray = (Double[])scoreList.toArray(new Double[scoreList.size()]);
 		double[] scoreArray = ArrayUtils.toPrimitive(integerScoreArray);
+				//ArrayUtils.toPrimitive(integerScoreArray);
 		
 		//排序
 		int[] index = new int[scoreArray.length];//原始下标数组
@@ -111,7 +112,7 @@ public class ScoresBarChartAction extends ActionSupport {
 //		logger.debug(">>>>>>>>>>分数列表："+Arrays.toString(scoreArray));
 //		logger.debug(">>>>>>>>>>分数length"+scoreArray.length);
 		
-		CategoryDataset dataset = DatasetUtilities.createCategoryDataset(rowKeys, columnKeys, data);
+		CategoryDataset dataset = DatasetUtils.createCategoryDataset(rowKeys, columnKeys, data);
 
 		// 创建主题样式
 		StandardChartTheme standardChartTheme = new StandardChartTheme("CN");
@@ -126,15 +127,15 @@ public class ScoresBarChartAction extends ActionSupport {
 		// 应用主题样式
 		ChartFactory.setChartTheme(standardChartTheme);
 
-		chart = ChartFactory.createBarChart3D("成绩分布图", "姓名", "成绩", dataset, PlotOrientation.HORIZONTAL, false,
+		chart = ChartFactory.createBarChart("成绩分布图", "姓名", "成绩", dataset, PlotOrientation.HORIZONTAL, false,
 				false, false);
 		CategoryPlot plot = chart.getCategoryPlot();// 获得图表区域对象
 		CustomColorBarRenderer renderer = new CustomColorBarRenderer();
-		renderer.setBaseItemLabelGenerator(new StandardCategoryItemLabelGenerator()); 
-		renderer.setBasePositiveItemLabelPosition(new ItemLabelPosition(
+		renderer.setDefaultItemLabelGenerator(new StandardCategoryItemLabelGenerator());
+		renderer.setDefaultPositiveItemLabelPosition(new ItemLabelPosition(
 				ItemLabelAnchor.OUTSIDE4, TextAnchor.BASELINE_RIGHT));
 		renderer.setItemLabelAnchorOffset(25D);
-		renderer.setBaseItemLabelsVisible(true);  
+		renderer.setDefaultItemLabelsVisible(true);
 		plot.setRenderer(renderer);
 		return SUCCESS;
 	}

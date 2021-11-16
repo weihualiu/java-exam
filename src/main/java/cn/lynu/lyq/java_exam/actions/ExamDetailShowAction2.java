@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
-import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Scope;
@@ -230,7 +230,7 @@ public class ExamDetailShowAction2 extends ActionSupport {
 	 * （前面的1表示是第一道填空题，后面的2表示是该题目的第二个空白）
 	 * 
 	 * @param content 该题内容字符串（含有____的空）
-	 * @param quesitonNo 填空题编号
+	 * @param questionNo 填空题编号
 	 * @return 替换后的字符串
 	 */
 	@SuppressWarnings("unchecked")
@@ -246,7 +246,8 @@ public class ExamDetailShowAction2 extends ActionSupport {
 			if(blankAnswerList !=null ){
 				blankAnswerListForCurrentQ = (List<String>)blankAnswerList.get(questionNo-1);
 			}
-			content = StringEscapeUtils.escapeHtml(content);
+
+			content = StringEscapeUtils.escapeHtml4(content);
 			
 			Pattern p = Pattern.compile("[_]{2,}");//含有至少两个_符号表示空白，  即： _______
 			Matcher m = p.matcher(content);
@@ -408,7 +409,7 @@ public class ExamDetailShowAction2 extends ActionSupport {
 	 * 如果选择题的题干中有 “[[[xxxx.xxx]]]”的图片，则替换为<img src='images/xxxx.xxx'>的Html标签，否则原样返回
 	 */
 	public  static String showContentWithImage(String content){
-		content = StringEscapeUtils.escapeHtml(content);
+		content = StringEscapeUtils.escapeHtml4(content);
 		Pattern pattern = Pattern.compile("\\[{3}\\w+\\.\\w+\\]{3}"); //匹配 “[[[xxxx.xxx]]]”
 		Matcher matcher = pattern.matcher(content);
 		String picFileName = null;
